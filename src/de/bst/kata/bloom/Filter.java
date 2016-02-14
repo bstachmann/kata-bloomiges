@@ -7,13 +7,17 @@ import java.util.HashSet;
 @SuppressWarnings("serial")
 public class Filter implements Serializable {
 
-	private Collection<String> userIds = new HashSet<>();
+	private Collection<Integer> userIds = new HashSet<>();
 
 	public void add(String id) {
-		userIds.add(id);
+		userIds.add(fingerprint(id));
 	}
 
 	public boolean contains(String id) {
-		return userIds.contains(id);
+		return userIds.contains(fingerprint(id));
+	}
+
+	private Integer fingerprint(String id) {
+		return id.hashCode();
 	}
 }
