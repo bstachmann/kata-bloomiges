@@ -7,7 +7,7 @@ import java.util.HashSet;
 @SuppressWarnings("serial")
 public class Filter implements Serializable {
 
-	private Collection<Integer> userIds = new HashSet<>();
+	private Collection<Short> userIds = new HashSet<>();
 
 	public void add(String id) {
 		userIds.add(fingerprint(id));
@@ -17,7 +17,7 @@ public class Filter implements Serializable {
 		return userIds.contains(fingerprint(id));
 	}
 
-	private Integer fingerprint(String id) {
-		return id.hashCode();
+	private Short fingerprint(String id) {
+		return (short) id.hashCode();
 	}
 }
