@@ -9,19 +9,24 @@ import org.junit.Test;
 
 public class BloomFilterTest {
 
+	private int nrOfUserIdsAdded = 100000;
+
 	private Filter filter = new Filter();
 
 	@Before
 	public void setup() {
-		// TODO hier den Filter füllen
+		for (int i = 0; i < nrOfUserIdsAdded; i++)
+			filter.add("a-user-id-to-be-added-" + i);
 
-		out.println("Filter serialized to " + nrOfBytesSerializing(filter) + " bytes.");
+		double bytesPerUserId = nrOfBytesSerializing(filter) / (double) nrOfUserIdsAdded;
+		out.println("Filter serialized to " + bytesPerUserId + " bytes per user id.");
 	}
 
 	@Test
 	public void testIndex() {
-		// TODO hier Zugriffe auf den Filter testen
+		for (int i = 0; i < nrOfUserIdsAdded; i++)
+			assertEquals(true, filter.contains("a-user-id-to-be-added-" + i));
 
-		fail();
+		assertEquals(false, filter.contains("a-user-id-NOT-added"));
 	}
 }
