@@ -1,23 +1,26 @@
 package de.bst.kata.bloom;
 
+import static java.lang.Math.*;
+
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.BitSet;
 
 @SuppressWarnings("serial")
 public class Filter implements Serializable {
 
-	private Collection<Short> userIds = new HashSet<>();
+	private int size = 1200000;
+
+	private BitSet userBits = new BitSet(size);
 
 	public void add(String id) {
-		userIds.add(fingerprint(id));
+		userBits.set(fingerprint(id));
 	}
 
 	public boolean contains(String id) {
-		return userIds.contains(fingerprint(id));
+		return userBits.get(fingerprint(id));
 	}
 
-	private Short fingerprint(String id) {
-		return (short) id.hashCode();
+	private Integer fingerprint(String id) {
+		return abs(id.hashCode()) % size;
 	}
 }

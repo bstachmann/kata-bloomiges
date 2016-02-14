@@ -10,6 +10,7 @@ import org.junit.Test;
 public class BloomFilterTest {
 
 	private int nrOfUserIdsAdded = 100000;
+	private int nrOfUserIdsNotAdded = 1000000;
 
 	private Filter filter = new Filter();
 
@@ -27,6 +28,12 @@ public class BloomFilterTest {
 		for (int i = 0; i < nrOfUserIdsAdded; i++)
 			assertEquals(true, filter.contains("a-user-id-to-be-added-" + i));
 
-		assertEquals(false, filter.contains("a-user-id-NOT-added"));
+		double falsePositives = 0;
+		for (int i = 0; i < nrOfUserIdsNotAdded; i++)
+			if (filter.contains("a-user-id-NOT-added-" + i))
+				falsePositives++;
+		double falsePositiveRatio = falsePositives / (double) nrOfUserIdsNotAdded;
+		out.println("False positive ratio: " + falsePositiveRatio);
+		assertTrue(falsePositiveRatio < 0.1);
 	}
 }
